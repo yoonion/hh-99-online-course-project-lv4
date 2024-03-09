@@ -23,7 +23,7 @@ public class UserController {
         SignUpResponseDto responseDto = userService.signUp(requestDto);
 
         return ResponseEntity
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
                 .body(responseDto);
     }
 }

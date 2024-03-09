@@ -30,6 +30,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("JWT 검증 및 인가 시도");
 
         String tokenValue = jwtUtil.getJwtFromHeader(request);
 
@@ -50,6 +51,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
+        log.info("JWT 검증 및 인가 성공");
         filterChain.doFilter(request, response);
     }
 

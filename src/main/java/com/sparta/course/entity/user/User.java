@@ -1,5 +1,6 @@
 package com.sparta.course.entity.user;
 
+import com.sparta.course.dto.user.SignUpRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,13 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
+
+    public User(String encodedPassword, UserGenderEnum gender, UserRoleEnum role, SignUpRequestDto requestDto) {
+        this.email = requestDto.getEmail();
+        this.password = encodedPassword;
+        this.phoneNumber = requestDto.getPhoneNumber();
+        this.address = requestDto.getAddress();
+        this.gender = gender;
+        this.role = role;
+    }
 }

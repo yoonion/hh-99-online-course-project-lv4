@@ -51,7 +51,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
-        log.info("JWT 검증 및 인가 성공");
         filterChain.doFilter(request, response);
     }
 

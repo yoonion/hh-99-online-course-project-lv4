@@ -1,4 +1,4 @@
-package com.sparta.course.entity;
+package com.sparta.course.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,9 +12,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
+
+    @Column(nullable = false)
     private String address;
 
     @Enumerated(EnumType.STRING)

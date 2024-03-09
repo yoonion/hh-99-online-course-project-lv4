@@ -1,4 +1,4 @@
-package com.sparta.course.entity;
+package com.sparta.course.entity.user;
 
 import lombok.Getter;
 

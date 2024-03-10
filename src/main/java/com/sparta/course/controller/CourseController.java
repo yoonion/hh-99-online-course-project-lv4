@@ -1,5 +1,6 @@
 package com.sparta.course.controller;
 
+import com.sparta.course.dto.CourseInfoByCategoryResponseDto;
 import com.sparta.course.dto.CourseInfoResponseDto;
 import com.sparta.course.dto.course.CourseRegisterResponseDto;
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +38,17 @@ public class CourseController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CourseInfoByCategoryResponseDto>> getCourseByCategory(
+            @RequestParam(required = false, defaultValue = "spring") String category,
+            @RequestParam(required = false, defaultValue = "createdAt") String sort,
+            @RequestParam(required = false, defaultValue = "desc") String order
+    ) {
+        List<CourseInfoByCategoryResponseDto> responseDtos = courseService.getCourseByCategory(category, sort, order);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseDtos);
     }
 }

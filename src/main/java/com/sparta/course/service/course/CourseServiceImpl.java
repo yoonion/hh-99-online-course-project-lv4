@@ -1,5 +1,6 @@
 package com.sparta.course.service.course;
 
+import com.sparta.course.dto.CourseInfoResponseDto;
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
 import com.sparta.course.dto.course.CourseRegisterResponseDto;
 import com.sparta.course.entity.course.Course;
@@ -30,6 +31,14 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(course);
 
         return new CourseRegisterResponseDto(course);
+    }
+
+    @Override
+    public CourseInfoResponseDto getCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new NoSuchElementException("강의 정보가 존재하지 않습니다."));
+
+        return new CourseInfoResponseDto(course);
     }
 
     private Teacher findTeacherById(Long teacherId) {

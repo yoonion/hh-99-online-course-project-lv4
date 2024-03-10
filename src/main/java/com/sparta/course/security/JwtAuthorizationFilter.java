@@ -38,6 +38,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");
+                jwtUtil.AuthResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 인증 입니다. 다시 로그인 해주세요.");
                 return;
             }
 

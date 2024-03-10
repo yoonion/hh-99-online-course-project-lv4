@@ -1,6 +1,7 @@
 package com.sparta.course.entity.course;
 
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
+import com.sparta.course.entity.comment.Comment;
 import com.sparta.course.entity.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.sparta.course.entity.course.CourseCategoryEnum.matchStringWithCategory;
 
@@ -28,7 +31,7 @@ public class Course {
     @Column(nullable = false)
     private int price;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String introduction;
 
     @Column(nullable = false)
@@ -39,9 +42,12 @@ public class Course {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @OneToMany(mappedBy = "course")
+    private List<Comment> comments = new ArrayList<>();
 
     public Course(Teacher teacher, CourseRegisterRequestDto requestDto) {
         this.title = requestDto.getTitle();

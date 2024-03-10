@@ -1,7 +1,7 @@
 package com.sparta.course.controller;
 
-import com.sparta.course.dto.CourseInfoByCategoryResponseDto;
-import com.sparta.course.dto.CourseInfoResponseDto;
+import com.sparta.course.dto.course.CourseInfoByCategoryResponseDto;
+import com.sparta.course.dto.course.CourseInfoResponseDto;
 import com.sparta.course.dto.course.CourseRegisterResponseDto;
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
 import com.sparta.course.entity.user.UserRoleEnum;
@@ -37,8 +37,8 @@ public class CourseController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(responseDto);
-    }
+            .body(responseDto);
+}
 
     @GetMapping
     public ResponseEntity<List<CourseInfoByCategoryResponseDto>> getCourseByCategory(

@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleNoSuchElementExceptions(NoSuchElementException ex) {
-        log.info("NoSuchElementException 진입");
+        log.info("NoSuchElementException = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(ex.getMessage()));
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleIllegalArgumentExceptions(IllegalArgumentException ex) {
-        log.info("IllegalArgumentExceptionHandler 진입");
+        log.info("IllegalArgumentExceptionHandler = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(ex.getMessage()));
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleExceptions(Exception ex) {
-        log.info("exceptionHandler 진입");
+        log.info("Exception = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("INTERNAL-SERVER-ERROR"));

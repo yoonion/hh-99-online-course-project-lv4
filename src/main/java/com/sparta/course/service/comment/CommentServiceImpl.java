@@ -48,7 +48,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void checkCommentUser(User user, Comment findComment) {
-        if (!findComment.getUser().getId().equals(user.getId())) {
+        Long requestUserId = user.getId();
+        Long savedCommentUserId = findComment.getUser().getId();
+
+        if (!savedCommentUserId.equals(requestUserId)) {
             throw new AccessDeniedException("댓글을 등록한 회원만 수정 및 삭제가 가능합니다.");
         }
     }

@@ -16,10 +16,15 @@ public class Like {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    public Like(Course course, User user) {
+        this.course = course;
+        this.user = user;
+    }
 }

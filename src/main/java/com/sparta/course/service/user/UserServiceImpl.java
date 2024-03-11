@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -47,11 +45,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("권한은 admin OR user 만 입력 가능합니다.");
         }
 
-        // 회원 중복 체크 - exists 로 변경. 내부적으로 limit 1 로 첫 번쨰 값만 확인하기 때문에 빠름?
-        // Optional<User> findUser = userRepository.findByEmail(requestDto.getEmail());
-        // if (findUser.isPresent()) {
-        // throw new IllegalArgumentException("중복된 이메일 입니다.");
-        // }
+        // 회원 중복 체크 - exists
         if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new IllegalArgumentException("중복된 이메일 입니다");
         }

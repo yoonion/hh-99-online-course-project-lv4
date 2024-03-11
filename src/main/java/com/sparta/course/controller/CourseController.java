@@ -7,6 +7,7 @@ import com.sparta.course.dto.course.CourseRegisterRequestDto;
 import com.sparta.course.entity.user.UserRoleEnum;
 import com.sparta.course.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -37,8 +38,8 @@ public class CourseController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-            .body(responseDto);
-}
+                .body(responseDto);
+    }
 
     @GetMapping
     public ResponseEntity<List<CourseInfoByCategoryResponseDto>> getCourseByCategory(

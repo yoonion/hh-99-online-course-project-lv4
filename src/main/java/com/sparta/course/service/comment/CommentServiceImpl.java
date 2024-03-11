@@ -9,17 +9,20 @@ import com.sparta.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final CourseRepository courseRepository;
 
     @Override
+    @Transactional
     public CommentRegisterResponseDto registerComment(CommentRegisterRequestDto requestDto, User user) {
         Course course = findCourseById(requestDto.getCourseId());
 
@@ -30,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentUpdateResponseDto updateComment(CommentUpdateRequestDto requestDto, Long commentId, User user) {
         Comment findComment = findCommentById(commentId);
         checkCommentUser(user, findComment);
@@ -39,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDeleteResponseDto deleteComment(Long commentId, User user) {
         Comment findComment = findCommentById(commentId);
         checkCommentUser(user, findComment);

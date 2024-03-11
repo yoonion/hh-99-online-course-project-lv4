@@ -6,6 +6,7 @@ import com.sparta.course.entity.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -37,6 +38,10 @@ public class Course {
     @Column(nullable = false)
     private CourseCategoryEnum category;
 
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private int likeCount;
+
     @CreatedDate
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,5 +60,13 @@ public class Course {
         this.introduction = requestDto.getIntroduction();
         this.category = matchStringWithCategory(requestDto.getCategory());
         this.teacher = teacher;
+    }
+
+    public void updateLikeCount(boolean isLike) {
+        if (!isLike) {
+            this.likeCount -= 1; // 좋아요 취소 - count 1 감소
+            return;
+        }
+        this.likeCount += 1; // 좋아요 추가 - count 1 증가
     }
 }

@@ -29,16 +29,20 @@ public class LikeServiceImpl implements LikeService {
         Course course = courseRepository.findById(requestDto.getCourseId())
                 .orElseThrow(() -> new NoSuchElementException("강의가 존재하지 않습니다."));
 
-        // 이미 좋아요 했는지 확인
+        // 이미 좋아요 했는지 확인 - 취소
         Optional<Like> findLike = likeRepository.findByCourseIdAndUserId(course.getId(), user.getId());
         if (findLike.isPresent()) {
-            likeRepository.deleteByCourseIdAndUserId(course.getId(), user.getId());
-            return new LikeCourseResponseDto(course.getId(), false); // 좋아요 취소
+            likeRepository.deleteByCourseIdAndUserId(course.getId(), user.getId()); // 좋아요 삭제
+            course.updateLikeCount(false); // 강의 테이블 count - 1
+
+            return new LikeCourseResponseDto(course.getId(), false);
         }
 
+        // 새로운 좋아요 추가
         Like like = new Like(course, user);
-        likeRepository.save(like);
+        likeRepository.save(like); // 좋아요 추가
+        course.updateLikeCount(true); // 강의 테이블 count + 1
 
-        return new LikeCourseResponseDto(course.getId(), true); // 좋아요 추가
+        return new LikeCourseResponseDto(course.getId(), true);
     }
 }

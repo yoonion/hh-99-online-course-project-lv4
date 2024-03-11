@@ -3,6 +3,7 @@ package com.sparta.course.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,6 +13,16 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 권한 없음
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleAccessDeniedExceptions(AccessDeniedException ex) {
+        log.info("AccessDeniedException = {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
+    // 리소스 없음
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleNoSuchElementExceptions(NoSuchElementException ex) {
         log.info("NoSuchElementException = {}", ex.getMessage());

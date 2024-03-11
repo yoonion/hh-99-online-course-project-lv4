@@ -1,18 +1,15 @@
 package com.sparta.course.service.comment;
 
-import com.sparta.course.dto.comment.CommentRegisterRequestDto;
-import com.sparta.course.dto.comment.CommentRegisterResponseDto;
-import com.sparta.course.dto.comment.CommentUpdateRequestDto;
-import com.sparta.course.dto.comment.CommentUpdateResponseDto;
+import com.sparta.course.dto.comment.*;
 import com.sparta.course.entity.comment.Comment;
 import com.sparta.course.entity.course.Course;
 import com.sparta.course.entity.user.User;
 import com.sparta.course.repository.CommentRepository;
 import com.sparta.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -35,12 +32,25 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentUpdateResponseDto updateComment(CommentUpdateRequestDto requestDto, Long commentId, User user) {
         Comment findComment = findCommentById(commentId);
-        if (!findComment.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("댓글을 등록한 회원만 수정이 가능합니다.");
-        }
+        checkCommentUser(user, findComment);
         findComment.update(requestDto);
 
         return new CommentUpdateResponseDto(findComment);
+    }
+
+    @Override
+    public CommentDeleteResponseDto deleteComment(Long commentId, User user) {
+        Comment findComment = findCommentById(commentId);
+        checkCommentUser(user, findComment);
+        commentRepository.deleteById(commentId);
+
+        return new CommentDeleteResponseDto(findComment.getId());
+    }
+
+    private void checkCommentUser(User user, Comment findComment) {
+        if (!findComment.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("댓글을 등록한 회원만 수정 및 삭제가 가능합니다.");
+        }
     }
 
     private Comment findCommentById(Long commentId) {

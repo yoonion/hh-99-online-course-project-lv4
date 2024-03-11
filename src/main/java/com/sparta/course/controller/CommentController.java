@@ -1,9 +1,6 @@
 package com.sparta.course.controller;
 
-import com.sparta.course.dto.comment.CommentRegisterRequestDto;
-import com.sparta.course.dto.comment.CommentRegisterResponseDto;
-import com.sparta.course.dto.comment.CommentUpdateRequestDto;
-import com.sparta.course.dto.comment.CommentUpdateResponseDto;
+import com.sparta.course.dto.comment.*;
 import com.sparta.course.security.UserDetailsImpl;
 import com.sparta.course.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,7 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    private ResponseEntity<CommentUpdateResponseDto> updateComment(
+    public ResponseEntity<CommentUpdateResponseDto> updateComment(
             @PathVariable Long commentId,
             @RequestBody CommentUpdateRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -44,4 +41,17 @@ public class CommentController {
                 .status(HttpStatus.OK)
                 .body(responseDto);
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<CommentDeleteResponseDto> deleteComment(
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        CommentDeleteResponseDto responseDto = commentService.deleteComment(commentId, userDetails.getUser());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseDto);
+    }
+
 }

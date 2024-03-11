@@ -18,6 +18,7 @@
 ![hh-99-erd](./docs/ERD.png)
 
 ### Usecase Diagram
+![hh-99-usecase](./docs/lv4-usecase.png)
 
 
 ### API 명세서 (Postman)

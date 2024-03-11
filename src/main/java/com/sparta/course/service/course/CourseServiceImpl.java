@@ -1,9 +1,11 @@
 package com.sparta.course.service.course;
 
+import com.sparta.course.dto.comment.CommentListResponseDto;
 import com.sparta.course.dto.course.CourseInfoByCategoryResponseDto;
 import com.sparta.course.dto.course.CourseInfoResponseDto;
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
 import com.sparta.course.dto.course.CourseRegisterResponseDto;
+import com.sparta.course.entity.comment.Comment;
 import com.sparta.course.entity.course.Course;
 import com.sparta.course.entity.course.CourseCategoryEnum;
 import com.sparta.course.entity.teacher.Teacher;
@@ -40,8 +42,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfoResponseDto getCourse(Long courseId) {
         Course course = findCourseById(courseId);
+        List<Comment> comments = course.getComments();
+        List<CommentListResponseDto> responseCommentDtos = comments.stream()
+                .map((comment) -> new CommentListResponseDto(comment.getUser().getEmail(), comment.getContents()))
+                .toList();
 
-        return new CourseInfoResponseDto(course);
+        return new CourseInfoResponseDto(course, responseCommentDtos);
     }
 
     @Override

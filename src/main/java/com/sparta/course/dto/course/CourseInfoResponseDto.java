@@ -2,11 +2,14 @@ package com.sparta.course.dto.course;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.sparta.course.dto.comment.CommentListResponseDto;
+import com.sparta.course.entity.comment.Comment;
 import com.sparta.course.entity.course.Course;
 import com.sparta.course.entity.course.CourseCategoryEnum;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -21,8 +24,9 @@ public class CourseInfoResponseDto {
     private final int teacherCareer;
     private final String teacherCompany;
     private final String teacherIntroduction;
+    private final List<CommentListResponseDto> comments;
 
-    public CourseInfoResponseDto(Course course) {
+    public CourseInfoResponseDto(Course course, List<CommentListResponseDto> comments) {
         this.title = course.getTitle();
         this.price = course.getPrice();
         this.introduction = course.getIntroduction();
@@ -32,5 +36,6 @@ public class CourseInfoResponseDto {
         this.teacherCareer = course.getTeacher().getCareer();
         this.teacherCompany = course.getTeacher().getCompany();
         this.teacherIntroduction = course.getTeacher().getIntroduction();
+        this.comments = comments;
     }
 }

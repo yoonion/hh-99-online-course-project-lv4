@@ -30,8 +30,8 @@ public class LikeServiceImpl implements LikeService {
                 .orElseThrow(() -> new NoSuchElementException("강의가 존재하지 않습니다."));
 
         // 이미 좋아요 했는지 확인 - 취소
-        Optional<Like> findLike = likeRepository.findByCourseIdAndUserId(course.getId(), user.getId());
-        if (findLike.isPresent()) {
+        boolean isLike = likeRepository.existsByCourseIdAndUserId(course.getId(), user.getId());
+        if (isLike) {
             likeRepository.deleteByCourseIdAndUserId(course.getId(), user.getId()); // 좋아요 삭제
             course.updateLikeCount(false); // 강의 테이블 count - 1
 

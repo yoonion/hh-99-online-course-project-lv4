@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,6 +15,18 @@ import java.util.NoSuchElementException;
 @Slf4j(topic = "GlobalExceptionHandler 예외 전역 처리")
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    // bean validation exception
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        log.info("MethodArgumentNotValidException = {}", ex.getMessage());
+        BindingResult bindingResult = ex.getBindingResult();
+        FieldError fieldError = bindingResult.getFieldError();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(fieldError.getDefaultMessage()));
+    }
 
     // 권한 없음
     @ExceptionHandler

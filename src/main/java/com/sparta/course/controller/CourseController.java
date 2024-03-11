@@ -6,6 +6,7 @@ import com.sparta.course.dto.course.CourseRegisterResponseDto;
 import com.sparta.course.dto.course.CourseRegisterRequestDto;
 import com.sparta.course.entity.user.UserRoleEnum;
 import com.sparta.course.service.course.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class CourseController {
 
     @Secured(UserRoleEnum.Authority.ADMIN)
     @PostMapping
-    public ResponseEntity<CourseRegisterResponseDto> registerCourse(@RequestBody CourseRegisterRequestDto requestDto) {
+    public ResponseEntity<CourseRegisterResponseDto> registerCourse(@RequestBody @Valid CourseRegisterRequestDto requestDto) {
         CourseRegisterResponseDto responseDto = courseService.registerCourse(requestDto);
 
         return ResponseEntity

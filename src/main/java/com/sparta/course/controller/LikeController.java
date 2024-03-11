@@ -4,6 +4,7 @@ import com.sparta.course.dto.like.LikeCourseRequestDto;
 import com.sparta.course.dto.like.LikeCourseResponseDto;
 import com.sparta.course.security.UserDetailsImpl;
 import com.sparta.course.service.like.LikeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class LikeController {
 
     @PostMapping
     public ResponseEntity<LikeCourseResponseDto> likeCourse(
-            @RequestBody LikeCourseRequestDto requestDto,
+            @RequestBody @Valid LikeCourseRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
             ) {
         LikeCourseResponseDto responseDto = likeService.likeCourse(requestDto, userDetails.getUser());

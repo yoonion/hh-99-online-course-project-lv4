@@ -3,6 +3,7 @@ package com.sparta.course.controller;
 import com.sparta.course.dto.comment.*;
 import com.sparta.course.security.UserDetailsImpl;
 import com.sparta.course.service.comment.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<CommentRegisterResponseDto> registerComment(
-            @RequestBody CommentRegisterRequestDto requestDto,
+            @RequestBody @Valid CommentRegisterRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
             ) {
         CommentRegisterResponseDto responseDto = commentService.registerComment(requestDto, userDetails.getUser());
@@ -31,7 +32,7 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentUpdateResponseDto> updateComment(
             @PathVariable Long commentId,
-            @RequestBody CommentUpdateRequestDto requestDto,
+            @RequestBody @Valid CommentUpdateRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
 
